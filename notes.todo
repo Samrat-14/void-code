@@ -1,2 +1,6 @@
 Timestamp
-- 00.20.20
+- 01.55.40
+
+TODO:
+- [ ] command-menu scroll (if at bottom and pressed down, shoudl go to top, and vice versa)
+- [ ] textarea max-height and scroll within
