@@ -64,7 +64,7 @@ export function DialogSearchList<T>({
         if (sb && newIndex < sb.scrollTop) {
           sb.scrollTo(newIndex);
         }
-        const item = filtered[selectedIndex];
+        const item = filtered[newIndex];
         if (item && onHighlight) onHighlight(item);
         return newIndex;
       });
@@ -79,7 +79,7 @@ export function DialogSearchList<T>({
             sb.scrollTo(newIndex - viewportHeight + 1);
           }
         }
-        const item = filtered[selectedIndex];
+        const item = filtered[newIndex];
         if (item && onHighlight) onHighlight(item);
         return newIndex;
       });

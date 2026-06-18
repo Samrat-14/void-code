@@ -79,7 +79,7 @@ export function InputBar({ onSubmit, disabled }: InputBarProps) {
         textarea.insertText(command.value + " ");
       }
     },
-    [renderer, toast],
+    [renderer, toast, dialog],
   );
 
   const handleCommandExecute = useCallback(
