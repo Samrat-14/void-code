@@ -1,6 +1,12 @@
-import "dotenv/config";
+import dotenv from "dotenv";
+import path from "path";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient } from "../generated/prisma/client.ts";
+
+// To reference the global env file
+dotenv.config({
+  path: path.resolve(import.meta.dirname, "../../../.env"),
+});
 
 const datebaseUrl = process.env.DATABASE_URL;
 

@@ -1,7 +1,7 @@
 import z from "zod";
 import { Hono } from "hono";
 import { findSupportedChatModel } from "@voidcode/shared";
-import { db } from "@voidcode/database";
+import { db } from "@voidcode/database/client";
 import { Role, Mode, MessageStatus } from "@voidcode/database/enums";
 import { zValidator } from "@hono/zod-validator";
 // import { HTTPException } from "hono/http-exception";

@@ -1,4 +1,12 @@
-import { createContext, useCallback, useContext, useRef, useState, type ReactNode } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useMemo,
+  useRef,
+  useState,
+  type ReactNode,
+} from "react";
 import { DEFAULT_DURATION, type ToastOptions, type ToastVariant } from "./types";
 import { useTerminalDimensions } from "@opentui/react";
 import { SplitBorderChars } from "../../components/border";
@@ -53,8 +61,10 @@ export function ToastProvider({ children }: ToastProviderProps) {
     [clearCurrentTimeout],
   );
 
+  const value = useMemo(() => ({ show }), [show]);
+
   return (
-    <ToastContext.Provider value={{ show }}>
+    <ToastContext.Provider value={value}>
       {children}
       <Toast currentToast={currentToast} />
     </ToastContext.Provider>
