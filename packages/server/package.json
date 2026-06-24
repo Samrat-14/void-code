@@ -6,12 +6,18 @@
     ".": "./src/index.ts"
   },
   "scripts": {
-    "dev": "bun run --hot src/index.ts"
+    "dev": "bun run --hot src/index.ts",
+    "build": "bun build src/index.ts --outdir dist --target bun",
+    "postinstall": "bun run --cwd ../database db:generate"
   },
   "dependencies": {
+    "@ai-sdk/anthropic": "^3.0.85",
+    "@ai-sdk/azure": "^3.0.77",
+    "@ai-sdk/openai": "^3.0.74",
     "@hono/zod-validator": "^0.8.0",
     "@voidcode/database": "workspace:*",
     "@voidcode/shared": "workspace:*",
+    "ai": "^6.0.208",
     "dotenv": "^17.4.2",
     "hono": "^4.12.26",
     "zod": "^4.4.3"

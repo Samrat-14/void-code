@@ -3,7 +3,7 @@ export type ModelPricing = {
   outputUsedPerMillionTokens: number;
 };
 
-export type SupportedProvider = "anthropic" | "openai";
+export type SupportedProvider = "anthropic" | "openai" | "azure";
 
 type SupportedChatModelDefinition = {
   id: string;
@@ -60,6 +60,22 @@ export const SUPPORTED_CHAT_MODELS = [
       outputUsedPerMillionTokens: 1.25,
     },
   },
+  {
+    id: "aicloud-gpt-5.2-chat",
+    provider: "azure",
+    pricing: {
+      inputUsedPerMillionTokens: 1.75,
+      outputUsedPerMillionTokens: 14,
+    },
+  },
+  {
+    id: "aicloud-gpt-5.4",
+    provider: "azure",
+    pricing: {
+      inputUsedPerMillionTokens: 2.5,
+      outputUsedPerMillionTokens: 15,
+    },
+  },
 ] as const satisfies readonly SupportedChatModelDefinition[];
 
 export type SupportedChatModel = (typeof SUPPORTED_CHAT_MODELS)[number];
@@ -69,4 +85,4 @@ export function findSupportedChatModel(modelId: string) {
   return SUPPORTED_CHAT_MODELS.find((model) => model.id === modelId);
 }
 
-export const DEFAULT_CHAT_MODEL_ID: SupportedChatModelId = "claude-opus-4-6";
+export const DEFAULT_CHAT_MODEL_ID: SupportedChatModelId = "aicloud-gpt-5.4";
