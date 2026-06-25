@@ -5,11 +5,13 @@ import { UserMessage } from "../components/messages";
 import z from "zod";
 import { useToast } from "../providers/toast";
 import { apiClient } from "../lib/api-client";
-import { DEFAULT_CHAT_MODEL_ID } from "@voidcode/shared";
 import { getErrorMessage } from "../lib/http-errors";
+import { Mode } from "@voidcode/database/enums";
 
 const newSessionStateSchema = z.object({
   message: z.string(),
+  mode: z.enum(Mode),
+  model: z.string(),
 });
 
 export function NewSession() {
@@ -46,8 +48,8 @@ export function NewSession() {
             initialMessage: {
               role: "USER",
               content: state.message,
-              mode: "BUILD",
-              model: DEFAULT_CHAT_MODEL_ID,
+              mode: state.mode,
+              model: state.model,
             },
           },
         });
@@ -78,7 +80,7 @@ export function NewSession() {
 
   return (
     <SessionShell onSubmit={() => {}} inputDisabled loading>
-      <UserMessage message={state.message} />
+      <UserMessage message={state.message} mode={state.mode} />
     </SessionShell>
   );
 }

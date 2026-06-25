@@ -13,7 +13,9 @@
   "dependencies": {
     "@ai-sdk/anthropic": "^3.0.85",
     "@ai-sdk/azure": "^3.0.77",
+    "@ai-sdk/google": "^3.0.83",
     "@ai-sdk/openai": "^3.0.74",
+    "@ai-sdk/provider-utils": "^4.0.30",
     "@hono/zod-validator": "^0.8.0",
     "@voidcode/database": "workspace:*",
     "@voidcode/shared": "workspace:*",

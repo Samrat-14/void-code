@@ -1,7 +1,8 @@
 Timestamp
-- 07.25.25
+- 08.21.00
 
 TODO:
 - [ ] command-menu scroll (if at bottom and pressed down, shoudl go to top, and vice versa)
 - [ ] textarea max-height and scroll within
 - [ ] theme picker dialog (show correct color on dialog open)
+- [ ] make sure reasoning (thinking) occurs

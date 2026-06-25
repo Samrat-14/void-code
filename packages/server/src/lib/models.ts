@@ -7,16 +7,66 @@ import {
   type SupportedChatModelId,
   type SupportedProvider,
 } from "@voidcode/shared";
+import type { ProviderOptions } from "@ai-sdk/provider-utils";
 import type { LanguageModel } from "ai";
+import { google } from "@ai-sdk/google";
 
 type AnthropicModelId = Extract<SupportedChatModel, { provider: "anthropic" }>["id"];
 type OpenAIModelId = Extract<SupportedChatModel, { provider: "openai" }>["id"];
 type AzureModelId = Extract<SupportedChatModel, { provider: "azure" }>["id"];
+type GoogleModelId = Extract<SupportedChatModel, { provider: "google" }>["id"];
 
 export type ResolvedModel = {
   model: LanguageModel;
   provider: SupportedProvider;
   modelId: SupportedChatModelId;
+  providerOptions?: ProviderOptions;
+};
+
+const ANTHROPIC_PROVIDER_OPTIONS: Partial<Record<AnthropicModelId, ProviderOptions>> = {
+  "claude-opus-4-6": {
+    anthropic: {
+      thinking: {
+        type: "enabled",
+        budgetTokens: 10000,
+      },
+    },
+  },
+  "claude-sonnet-4-6": {
+    anthropic: {
+      thinking: {
+        type: "enabled",
+        budgetTokens: 10000,
+      },
+    },
+  },
+};
+
+const OPENAI_PROVIDER_OPTIONS: Partial<Record<OpenAIModelId, ProviderOptions>> = {
+  "gpt-5.4": {
+    openai: {
+      reasoningSummary: "detailed",
+    },
+  },
+};
+
+const AZURE_PROVIDER_OPTIONS: Partial<Record<AzureModelId, ProviderOptions>> = {
+  "aicloud-gpt-5.4": {
+    openai: {
+      reasoningSummary: "detailed",
+    },
+  },
+};
+
+const GOOGLE_PROVIDER_OPTIONS: Partial<Record<GoogleModelId, ProviderOptions>> = {
+  "gemini-2.5-flash": {
+    google: {
+      thinkingConfig: {
+        thinkingBudget: 8192,
+        includeThoughts: true,
+      },
+    },
+  },
 };
 
 function assertUnsupportedProvider(provider: never): never {
@@ -28,6 +78,7 @@ function resolveAnthropicModel(modelId: AnthropicModelId): ResolvedModel {
     model: anthropic(modelId),
     provider: "anthropic",
     modelId,
+    providerOptions: ANTHROPIC_PROVIDER_OPTIONS[modelId],
   };
 }
 
@@ -36,6 +87,7 @@ function resolveOpenAIModel(modelId: OpenAIModelId): ResolvedModel {
     model: openai(modelId),
     provider: "openai",
     modelId,
+    providerOptions: OPENAI_PROVIDER_OPTIONS[modelId],
   };
 }
 
@@ -49,6 +101,16 @@ function resolveAzureModel(modelId: AzureModelId): ResolvedModel {
     model: azure.chat(modelId),
     provider: "azure",
     modelId,
+    providerOptions: AZURE_PROVIDER_OPTIONS[modelId],
+  };
+}
+
+function resolveGoogleModel(modelId: GoogleModelId): ResolvedModel {
+  return {
+    model: google(modelId),
+    provider: "google",
+    modelId,
+    providerOptions: GOOGLE_PROVIDER_OPTIONS[modelId],
   };
 }
 
@@ -62,6 +124,8 @@ function resolveSupportedChatModel(model: SupportedChatModel): ResolvedModel {
       return resolveOpenAIModel(model.id);
     case "azure":
       return resolveAzureModel(model.id);
+    case "google":
+      return resolveGoogleModel(model.id);
     default:
       return assertUnsupportedProvider(provider);
   }
