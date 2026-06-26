@@ -4,6 +4,7 @@ import { findSupportedChatModel } from "@voidcode/shared";
 import { db } from "@voidcode/database/client";
 import { Role, Mode, MessageStatus } from "@voidcode/database/enums";
 import { zValidator } from "@hono/zod-validator";
+import type { AuthenticatedEnv } from "../middleware/require-auth";
 // import { HTTPException } from "hono/http-exception";
 
 const createSessionSchema = z.object({
@@ -25,9 +26,12 @@ const createSessionValidator = zValidator("json", createSessionSchema, (result, 
   }
 });
 
-const app = new Hono()
+const app = new Hono<AuthenticatedEnv>()
   .get("/", async (c) => {
+    const userId = c.get("userId");
+
     const sessions = await db.session.findMany({
+      where: { userId },
       orderBy: { createdAt: "desc" },
       select: { id: true, title: true, createdAt: true },
     });
@@ -42,8 +46,10 @@ const app = new Hono()
     // throw new HTTPException(500, { message: "Mock error: session loading failed" });
 
     const id = c.req.param("id");
+    const userId = c.get("userId");
+
     const session = await db.session.findUnique({
-      where: { id },
+      where: { id, userId },
       include: {
         messages: { orderBy: { createdAt: "asc" } },
       },
@@ -62,12 +68,13 @@ const app = new Hono()
     // MOCK: Uncomment to simulate session loading error
     // throw new HTTPException(500, { message: "Mock error: session loading failed" });
 
+    const userId = c.get("userId");
     const { initialMessage, ...data } = c.req.valid("json");
 
     const session = await db.session.create({
       data: {
         ...data,
-        userId: "mock-user",
+        userId,
         ...(initialMessage && {
           messages: {
             create: {

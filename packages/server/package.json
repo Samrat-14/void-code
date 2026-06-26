@@ -16,6 +16,7 @@
     "@ai-sdk/google": "^3.0.83",
     "@ai-sdk/openai": "^3.0.74",
     "@ai-sdk/provider-utils": "^4.0.30",
+    "@clerk/backend": "^3.8.4",
     "@hono/zod-validator": "^0.8.0",
     "@voidcode/database": "workspace:*",
     "@voidcode/shared": "workspace:*",
