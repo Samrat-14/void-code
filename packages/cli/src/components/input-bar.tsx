@@ -139,7 +139,12 @@ async function getMentionCandidates(query: string): Promise<MentionCandidate[]> 
         return { path: kind === "directory" ? `${path}/` : path, kind };
       });
 
-    if (directMatches.length > 0 || directoryPart !== "" || namePrefix === "") {
+    if (
+      directMatches.length > 0 ||
+      directoryPart !== "" ||
+      namePrefix === "" ||
+      namePrefix.length < 2
+    ) {
       return directMatches;
     }
 
@@ -420,10 +425,13 @@ export function InputBar({ onSubmit, disabled }: InputBarProps) {
       });
     };
 
-    void loadCandidates();
+    const handle = setTimeout(() => {
+      void loadCandidates();
+    }, 120);
 
     return () => {
       ignore = true;
+      clearTimeout(handle);
     };
   }, [activeMention]);
 
