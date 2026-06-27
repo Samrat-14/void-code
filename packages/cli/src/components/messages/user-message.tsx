@@ -1,10 +1,10 @@
-import { Mode } from "@voidcode/database/enums";
+import { Mode, type ModeType } from "@voidcode/shared";
 import { useTheme } from "../../providers/theme";
 import { EmptyBorder } from "../border";
 
 type UserMessageProps = {
   message: string;
-  mode: Mode;
+  mode: ModeType;
 };
 
 export function UserMessage({ message, mode }: UserMessageProps) {

@@ -1,15 +1,14 @@
-import type { Mode } from "@voidcode/database/enums";
+import type { ModeType, SupportedChatModelId } from "@voidcode/shared";
 import type { DialogContextValue } from "../../providers/dialog";
 import type { ToastContextValue } from "../../providers/toast";
-import type { SupportedChatModelId } from "@voidcode/shared";
 
 export type CommandContext = {
   exit: () => void;
   toast: ToastContextValue;
   dialog: DialogContextValue;
   navigate: (path: string) => void;
-  mode: Mode;
-  setMode: (mode: Mode) => void;
+  mode: ModeType;
+  setMode: (mode: ModeType) => void;
   setModel: (model: SupportedChatModelId) => void;
 };
 
