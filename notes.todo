@@ -5,3 +5,4 @@ TODO:
 - [ ] make sure reasoning (thinking) occurs
 - [ ] improve UX (consider opencode's UX, for ex, show current directory, version, tip)
 - [ ] exit confirmation modal
+- [ ] redirect to home screen on logout

@@ -1,8 +1,9 @@
 import { hc } from "hono/client";
 import type { AppType } from "@voidcode/server";
 import { clearAuth, getAuth } from "./auth";
+import { config } from "./config";
 
-export const apiClient = hc<AppType>(process.env.API_URL ?? "http://localhost:3000", {
+export const apiClient = hc<AppType>(config.apiUrl, {
   fetch: async (input: Parameters<typeof fetch>[0], init?: Parameters<typeof fetch>[1]) => {
     const headers = new Headers(init?.headers);
     const auth = getAuth();
