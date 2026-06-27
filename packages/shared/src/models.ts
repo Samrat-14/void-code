@@ -93,4 +93,4 @@ export function findSupportedChatModel(modelId: string) {
   return SUPPORTED_CHAT_MODELS.find((model) => model.id === modelId);
 }
 
-export const DEFAULT_CHAT_MODEL_ID: SupportedChatModelId = "aicloud-gpt-5.4";
+export const DEFAULT_CHAT_MODEL_ID: SupportedChatModelId = "claude-sonnet-4-6";
