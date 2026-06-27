@@ -28,6 +28,16 @@ type ChatTools = {
 
 export type Message = UIMessage<ChatMessageMetadata, never, ChatTools>;
 
+function hasMeaningfulPart(message: Message) {
+  return message.parts.some((part) => {
+    if (part.type === "text") {
+      return typeof part.text === "string" && part.text.length > 0;
+    }
+
+    return true;
+  });
+}
+
 export function useChat(sessionId: string, initialMessages: Message[]) {
   const transport = useMemo(() => {
     return new DefaultChatTransport<Message>({
@@ -42,10 +52,13 @@ export function useChat(sessionId: string, initialMessages: Message[]) {
 
         const metadata = messages.findLast((m) => m.metadata?.mode && m.metadata?.model)?.metadata;
         const previousMessage = messages[messages.length - 2];
-        const requestMessages =
-          message.role === "assistant" && previousMessage?.role === "user"
-            ? [previousMessage, message]
-            : [message];
+        const shouldIncludeAssistantMessage =
+          message.role === "assistant" &&
+          previousMessage?.role === "user" &&
+          Array.isArray(message.parts) &&
+          message.parts.length > 0 &&
+          hasMeaningfulPart(message);
+        const requestMessages = shouldIncludeAssistantMessage ? [previousMessage, message] : [message];
 
         return {
           body: {

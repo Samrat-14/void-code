@@ -57,6 +57,26 @@ function hasPendingToolCalls(message: VoidCodeUIMessage) {
   });
 }
 
+function hasMeaningfulPart(message: VoidCodeUIMessage) {
+  return message.parts.some((part) => {
+    if (part.type === "text") {
+      return typeof part.text === "string" && part.text.length > 0;
+    }
+
+    return true;
+  });
+}
+
+function sanitizeMessages(messages: VoidCodeUIMessage[]) {
+  return messages.filter((message) => {
+    if (!Array.isArray(message.parts) || message.parts.length === 0) {
+      return false;
+    }
+
+    return hasMeaningfulPart(message);
+  });
+}
+
 const app = new Hono<AuthenticatedEnv>().post(
   "/",
   requireCreditsBalance,
@@ -77,7 +97,7 @@ const app = new Hono<AuthenticatedEnv>().post(
     const tools = getToolContracts(mode);
     const resolvedModel = resolveChatModel(model);
     const previousMessages = Array.isArray(session.messages)
-      ? (session.messages as unknown as VoidCodeUIMessage[])
+      ? sanitizeMessages(session.messages as unknown as VoidCodeUIMessage[])
       : [];
     const mergedMessages = [...previousMessages];
 
@@ -97,7 +117,7 @@ const app = new Hono<AuthenticatedEnv>().post(
     }
 
     const nextMessages = await validateUIMessages<VoidCodeUIMessage>({
-      messages: mergedMessages,
+      messages: sanitizeMessages(mergedMessages),
       tools,
     });
     const modelMessages = await convertToModelMessages(nextMessages, { tools });
@@ -138,7 +158,7 @@ const app = new Hono<AuthenticatedEnv>().post(
         await db.session.update({
           where: { id, userId },
           data: {
-            messages: event.messages as unknown as Prisma.InputJsonValue,
+            messages: sanitizeMessages(event.messages as VoidCodeUIMessage[]) as unknown as Prisma.InputJsonValue,
           },
         });
 
