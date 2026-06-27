@@ -4,6 +4,9 @@
   "workspaces": {
     "": {
       "name": "voidcode",
+      "dependencies": {
+        "dotenv": "^17.4.2",
+      },
     },
     "packages/cli": {
       "name": "@voidcode/cli",
