@@ -4,7 +4,8 @@ VoidCode is a CLI-based AI coding assistant built as a Bun monorepo. It combines
 
 ## Preview
 
-![VoidCode Preview](./docs/preview.png)
+![VoidCode home screen](./docs/preview_home.png)
+![VoidCode session screen](./docs/preview_session.png)
 
 ## Why VoidCode stands out
 

@@ -8,7 +8,8 @@
   },
   "scripts": {
     "dev": "bun run --watch src/index.tsx",
-    "build": "bun build --packages external src/index.tsx --outdir dist --target bun"
+    "build": "bun build --packages external src/index.tsx --outdir dist --target bun",
+    "build:exe": "bun build src/index.tsx --compile --outfile ../../standalone/voidcode"
   },
   "devDependencies": {
     "@voidcode/server": "workspace:*",

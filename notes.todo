@@ -1,5 +1,5 @@
 TODO:
-- [ ] command-menu scroll (if at bottom and pressed down, shoudl go to top, and vice versa)
+- [ ] command-menu scroll (if at bottom and pressed down, should go to top, and vice versa)
 - [ ] textarea max-height and scroll within
 - [ ] theme picker dialog (show correct color on dialog open)
 - [ ] make sure reasoning (thinking) occurs
